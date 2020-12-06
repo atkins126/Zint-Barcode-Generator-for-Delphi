@@ -89,7 +89,7 @@ function nitems(a : TArrayOfInteger) : Integer; overload;
 
 implementation
 
-uses zint_helper, System.AnsiStrings;
+uses zint_helper{$IFNDEF FPC}, System.AnsiStrings{$ENDIF};
 
 function strlen(const AString: TArrayOfChar): NativeInt;
 var
@@ -141,7 +141,7 @@ var
 begin
   len := ustrlen(source);
 
-  Move(Source, Target, Len);
+  Move(Source[0], Target[0], Len);
   target[len] := 0;   // Be sure we have zero terminal
 end;
 

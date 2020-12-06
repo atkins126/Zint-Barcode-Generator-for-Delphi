@@ -46,11 +46,15 @@ begin
   Len := AString.Length;
 
   if Len > 0 then
+    {$IFNDEF FPC}
     {$if CompilerVersion >= 30}
     Result := TEncoding.ANSI.GetBytes(AString);
     {$else}
     Result := @RawByteString(AString)[1];
     {$endif}
+    {$ELSE}
+    Result := @RawByteString(AString)[1];
+    {$ENDIF}
 
   SetLength(Result, Len + 1); //For terminal #0
   Result[len] := 0;
@@ -124,7 +128,7 @@ begin
   if High(ASource) < ACount then
    ACount := High(ASource);
 
-  for I := Low(ASource) to ACount - 1 do
+  for I := Low(ASource) to ACount do
     ADestination[i] := Char(ASource[i]);
 end;
 
